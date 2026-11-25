@@ -1,1 +1,1070 @@
-Welcome to your first page
+<!DOCTYPE html>
+<html lang="es" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS PC | Hardware de Alto Rendimiento</title>
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fuente Inter y JetBrains Mono desde Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons para iconografía moderna -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        nexus: {
+                            bg: '#0b0f19',
+                            card: '#111827',
+                            surface: '#161e31',
+                            cyan: '#06b6d4',
+                            purple: '#8b5cf6',
+                        }
+                    },
+                    boxShadow: {
+                        'neon-cyan': '0 0 20px rgba(6, 182, 212, 0.35)',
+                        'neon-purple': '0 0 25px rgba(139, 92, 246, 0.35)',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-[#0b0f19] text-slate-100 font-sans antialiased selection:bg-cyan-500/30 selection:text-cyan-200 overflow-x-hidden">
+
+    <!-- Fondo ambiental con resplandores neón sutiles -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div class="absolute -top-40 -left-40 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute top-1/3 -right-40 w-[30rem] h-[30rem] bg-purple-600/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 left-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl"></div>
+    </div>
+
+    <!-- =====================================================================
+         BARRA DE NAVEGACIÓN SUPERIOR (NAVBAR)
+    ====================================================================== -->
+    <header class="sticky top-0 z-40 bg-[#0b0f19]/80 backdrop-blur-xl border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20 gap-4">
+                
+                <!-- Logo NEXUS PC -->
+                <a href="#" class="flex items-center gap-3 group shrink-0">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-purple-600 p-0.5 shadow-neon-cyan group-hover:scale-105 transition-transform">
+                        <div class="w-full h-full bg-[#0b0f19] rounded-[10px] flex items-center justify-center">
+                            <i data-lucide="cpu" class="w-5 h-5 text-cyan-400"></i>
+                        </div>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-extrabold text-xl tracking-wider bg-gradient-to-r from-white via-cyan-200 to-purple-400 bg-clip-text text-transparent">
+                            NEXUS<span class="text-cyan-400">PC</span>
+                        </span>
+                        <span class="text-[10px] font-mono uppercase tracking-widest text-slate-400 -mt-1">Hardware Elite</span>
+                    </div>
+                </a>
+
+                <!-- Buscador en tiempo real (Desktop) -->
+                <div class="hidden md:flex flex-1 max-w-md mx-4">
+                    <div class="relative w-full group">
+                        <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 group-focus-within:text-cyan-400 transition-colors"></i>
+                        <input 
+                            type="text" 
+                            id="searchInputDesktop"
+                            placeholder="Buscar RTX 4090, Ryzen 9, teclados..." 
+                            class="w-full bg-slate-900/90 border border-slate-700/80 focus:border-cyan-500/80 rounded-xl py-2.5 pl-10 pr-4 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 transition-all"
+                        >
+                    </div>
+                </div>
+
+                <!-- Acciones de Usuario: Carrito y Login / Perfil -->
+                <div class="flex items-center gap-3">
+                    <!-- Botón Carrito -->
+                    <button 
+                        onclick="toggleCartModal(true)" 
+                        class="relative p-2.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 hover:border-cyan-500/50 text-slate-200 transition-all group"
+                        aria-label="Abrir carrito de compras"
+                    >
+                        <i data-lucide="shopping-cart" class="w-5 h-5 group-hover:text-cyan-400 transition-colors"></i>
+                        <span 
+                            id="cartBadge" 
+                            class="absolute -top-1.5 -right-1.5 min-w-[20px] h-5 px-1 rounded-full bg-gradient-to-r from-cyan-500 to-purple-600 text-white text-[11px] font-bold flex items-center justify-center shadow-lg"
+                        >
+                            0
+                        </span>
+                    </button>
+
+                    <!-- Contenedor Dinámico de Sesión (Botón Login o Usuario Logueado) -->
+                    <div id="authHeaderContainer">
+                        <button 
+                            onclick="openAuthModal('login')" 
+                            class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white font-semibold text-sm shadow-neon-cyan hover:shadow-neon-purple transition-all active:scale-95"
+                        >
+                            <i data-lucide="user" class="w-4 h-4"></i>
+                            <span>Iniciar Sesión</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Buscador Móvil -->
+            <div class="md:hidden pb-3">
+                <div class="relative w-full">
+                    <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+                    <input 
+                        type="text" 
+                        id="searchInputMobile"
+                        placeholder="Buscar hardware, GPUs, laptops..." 
+                        class="w-full bg-slate-900/90 border border-slate-700/80 focus:border-cyan-500 rounded-xl py-2 pl-10 pr-4 text-sm text-slate-100 placeholder-slate-500 focus:outline-none"
+                    >
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- =====================================================================
+         SECCIÓN HERO (BANNER PRINCIPAL)
+    ====================================================================== -->
+    <section class="relative z-10 pt-8 pb-12 lg:pt-14 lg:pb-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="relative rounded-3xl overflow-hidden bg-slate-900/70 backdrop-blur-md border border-slate-800/90 shadow-2xl">
+                <!-- Gradiente decorativo de fondo -->
+                <div class="absolute inset-0 bg-gradient-to-r from-[#0b0f19] via-[#0b0f19]/90 to-transparent z-10"></div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-12 items-center min-h-[440px]">
+                    <!-- Contenido textual Hero -->
+                    <div class="relative z-20 lg:col-span-7 p-8 sm:p-12 lg:p-14">
+                        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-mono font-semibold mb-6">
+                            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                            NUEVA GENERACIÓN RTX SERIE 40 & RYZEN 9000
+                        </div>
+                        
+                        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.1] mb-5">
+                            Potencia Extrema para tu 
+                            <span class="bg-gradient-to-r from-cyan-400 via-sky-300 to-purple-500 bg-clip-text text-transparent">
+                                Setup Definitivo
+                            </span>
+                        </h1>
+                        
+                        <p class="text-slate-300 text-base sm:text-lg max-w-xl mb-8 leading-relaxed">
+                            Equipa tu estación de batalla con tarjetas gráficas de última generación, procesadores desbloqueados y periféricos competitivos con envío asegurado en 24h.
+                        </p>
+                        
+                        <div class="flex flex-wrap items-center gap-4">
+                            <a 
+                                href="#catalogo" 
+                                class="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-sm transition-all shadow-neon-cyan active:scale-95"
+                            >
+                                <span>Explorar Catálogo</span>
+                                <i data-lucide="arrow-down-right" class="w-4 h-4"></i>
+                            </a>
+                            <button 
+                                onclick="openAuthModal('register')" 
+                                class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-slate-800/80 hover:bg-slate-800 text-white font-semibold text-sm border border-slate-700 hover:border-purple-500/50 transition-all"
+                            >
+                                <i data-lucide="sparkles" class="w-4 h-4 text-purple-400"></i>
+                                <span>Unirse al Club VIP</span>
+                            </button>
+                        </div>
+
+                        <!-- Estadísticas rápidas -->
+                        <div class="grid grid-cols-3 gap-4 pt-8 mt-8 border-t border-slate-800/80 max-w-md">
+                            <div>
+                                <p class="text-xl sm:text-2xl font-bold text-white font-mono">+250</p>
+                                <p class="text-xs text-slate-400">Componentes Top</p>
+                            </div>
+                            <div>
+                                <p class="text-xl sm:text-2xl font-bold text-cyan-400 font-mono">24/48h</p>
+                                <p class="text-xs text-slate-400">Envío Express</p>
+                            </div>
+                            <div>
+                                <p class="text-xl sm:text-2xl font-bold text-purple-400 font-mono">3 Años</p>
+                                <p class="text-xs text-slate-400">Garantía Oficial</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Imagen Tecnológica Hero -->
+                    <div class="lg:col-span-5 relative h-72 lg:h-full min-h-[340px]">
+                        <img 
+                            src="https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=1200&q=80" 
+                            onerror="this.src='https://placehold.co/800x600/111827/06b6d4?text=NEXUS+PC+GAMING+RIG'"
+                            alt="PC Gamer RGB de alto rendimiento" 
+                            class="w-full h-full object-cover object-center lg:absolute lg:inset-0"
+                        >
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#0b0f19] via-transparent to-transparent lg:bg-gradient-to-r lg:from-[#0b0f19] lg:via-[#0b0f19]/40 lg:to-transparent"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =====================================================================
+         FILTROS POR CATEGORÍA Y CATÁLOGO DE PRODUCTOS
+    ====================================================================== -->
+    <main id="catalogo" class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+        
+        <!-- Encabezado y Barra de Categorías -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+            <div>
+                <h2 class="text-2xl sm:text-3xl font-bold text-white flex items-center gap-2.5">
+                    <span class="w-2 h-7 rounded-full bg-gradient-to-b from-cyan-400 to-purple-600"></span>
+                    Catálogo de Hardware
+                </h2>
+                <p class="text-slate-400 text-sm mt-1">Selecciona componentes certificados para gaming, streaming y creación 3D.</p>
+            </div>
+
+            <!-- Botones de Categoría -->
+            <div id="categoryFilters" class="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 no-scrollbar">
+                <button data-category="Todos" class="category-btn active px-4 py-2 rounded-xl text-sm font-semibold bg-cyan-500 text-slate-950 shadow-neon-cyan transition-all shrink-0">
+                    Todos
+                </button>
+                <button data-category="GPUs" class="category-btn px-4 py-2 rounded-xl text-sm font-medium bg-slate-900/90 text-slate-300 border border-slate-800 hover:border-cyan-500/50 transition-all shrink-0">
+                    GPUs
+                </button>
+                <button data-category="Procesadores" class="category-btn px-4 py-2 rounded-xl text-sm font-medium bg-slate-900/90 text-slate-300 border border-slate-800 hover:border-cyan-500/50 transition-all shrink-0">
+                    Procesadores
+                </button>
+                <button data-category="Laptops" class="category-btn px-4 py-2 rounded-xl text-sm font-medium bg-slate-900/90 text-slate-300 border border-slate-800 hover:border-cyan-500/50 transition-all shrink-0">
+                    Laptops
+                </button>
+                <button data-category="Periféricos" class="category-btn px-4 py-2 rounded-xl text-sm font-medium bg-slate-900/90 text-slate-300 border border-slate-800 hover:border-cyan-500/50 transition-all shrink-0">
+                    Periféricos
+                </button>
+            </div>
+        </div>
+
+        <!-- Grid de Productos (Renderizado dinámicamente con JS) -->
+        <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Las tarjetas de producto se insertan aquí -->
+        </div>
+
+        <!-- Estado vacío cuando no hay coincidencias de búsqueda -->
+        <div id="emptyState" class="hidden text-center py-16 px-4 rounded-3xl bg-slate-900/50 border border-slate-800/80 backdrop-blur-md">
+            <div class="w-16 h-16 rounded-2xl bg-slate-800/80 border border-slate-700 flex items-center justify-center mx-auto mb-4 text-cyan-400">
+                <i data-lucide="search-x" class="w-8 h-8"></i>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-1">No encontramos ese componente</h3>
+            <p class="text-slate-400 text-sm mb-5">Intenta buscar con otro término o restablece los filtros de categoría.</p>
+            <button onclick="resetFilters()" class="px-5 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-semibold text-sm transition-all">
+                Ver todo el catálogo
+            </button>
+        </div>
+    </main>
+
+    <!-- =====================================================================
+         FOOTER
+    ====================================================================== -->
+    <footer class="relative z-10 border-t border-slate-800/80 bg-[#080b12]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="md:col-span-2">
+                    <div class="flex items-center gap-2.5 mb-4">
+                        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500 to-purple-600 flex items-center justify-center">
+                            <i data-lucide="cpu" class="w-4 h-4 text-white"></i>
+                        </div>
+                        <span class="font-extrabold text-lg tracking-wider text-white">NEXUS<span class="text-cyan-400">PC</span></span>
+                    </div>
+                    <p class="text-slate-400 text-sm max-w-sm leading-relaxed">
+                        Tu tienda especializada en arquitectura PC de alto rendimiento, estaciones de trabajo y periféricos competitivos. Calidad garantizada para entusiastas.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold text-sm uppercase tracking-wider mb-4">Categorías</h4>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><a href="#catalogo" onclick="filterByCategory('GPUs')" class="hover:text-cyan-400 transition-colors">Tarjetas Gráficas RTX</a></li>
+                        <li><a href="#catalogo" onclick="filterByCategory('Procesadores')" class="hover:text-cyan-400 transition-colors">Procesadores Ryzen & Intel</a></li>
+                        <li><a href="#catalogo" onclick="filterByCategory('Laptops')" class="hover:text-cyan-400 transition-colors">Laptops Gamer Pro</a></li>
+                        <li><a href="#catalogo" onclick="filterByCategory('Periféricos')" class="hover:text-cyan-400 transition-colors">Monitores & Periféricos</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold text-sm uppercase tracking-wider mb-4">Soporte & Cuenta</h4>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><button onclick="openAuthModal('login')" class="hover:text-cyan-400 transition-colors">Iniciar Sesión</button></li>
+                        <li><button onclick="openAuthModal('register')" class="hover:text-cyan-400 transition-colors">Crear Cuenta VIP</button></li>
+                        <li><button onclick="toggleCartModal(true)" class="hover:text-cyan-400 transition-colors">Ver Mi Carrito</button></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-slate-800/80 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+                <p>&copy; 2026 NEXUS PC Hardware S.A. Todos los derechos reservados.</p>
+                <div class="flex items-center gap-4">
+                    <span class="flex items-center gap-1.5 text-slate-400"><i data-lucide="shield-check" class="w-4 h-4 text-cyan-400"></i> Pagos 100% Encriptados</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- =====================================================================
+         MODAL LATERAL DE CARRITO DE COMPRAS
+    ====================================================================== -->
+    <div id="cartModal" class="fixed inset-0 z-50 hidden">
+        <!-- Backdrop con blur -->
+        <div onclick="toggleCartModal(false)" class="fixed inset-0 bg-black/70 backdrop-blur-sm transition-opacity"></div>
+        
+        <!-- Panel lateral derecho -->
+        <div class="fixed inset-y-0 right-0 w-full max-w-md bg-[#0f1524] border-l border-slate-800 shadow-2xl flex flex-col z-10">
+            <!-- Header del Carrito -->
+            <div class="px-6 py-5 border-b border-slate-800 flex items-center justify-between bg-slate-900/60">
+                <div class="flex items-center gap-2.5">
+                    <i data-lucide="shopping-bag" class="w-5 h-5 text-cyan-400"></i>
+                    <h3 class="text-lg font-bold text-white">Tu Carrito</h3>
+                    <span id="cartHeaderCount" class="px-2 py-0.5 text-xs font-mono rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">0 items</span>
+                </div>
+                <button onclick="toggleCartModal(false)" class="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Lista de productos en el carrito -->
+            <div id="cartItemsContainer" class="flex-1 overflow-y-auto p-6 space-y-4">
+                <!-- Se llena dinámicamente -->
+            </div>
+
+            <!-- Footer del Carrito con Total y Botón Finalizar -->
+            <div id="cartFooter" class="p-6 border-t border-slate-800 bg-slate-900/80 backdrop-blur-md">
+                <div class="space-y-2 mb-4 text-sm">
+                    <div class="flex justify-between text-slate-400">
+                        <span>Subtotal</span>
+                        <span id="cartSubtotal" class="font-mono text-slate-200">$0.00</span>
+                    </div>
+                    <div class="flex justify-between text-slate-400">
+                        <span>Envío Asegurado</span>
+                        <span class="text-emerald-400 font-medium">GRATIS</span>
+                    </div>
+                    <div class="flex justify-between text-base font-bold text-white pt-2 border-t border-slate-800">
+                        <span>Total a Pagar</span>
+                        <span id="cartTotal" class="font-mono text-xl text-cyan-400">$0.00</span>
+                    </div>
+                </div>
+                <button 
+                    onclick="checkoutOrder()" 
+                    class="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white font-bold text-sm shadow-neon-cyan transition-all flex items-center justify-center gap-2 active:scale-[0.99]"
+                >
+                    <i data-lucide="credit-card" class="w-4 h-4"></i>
+                    <span>Procesar Compra Ahora</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- =====================================================================
+         MODAL MODERNO DE LOGIN Y REGISTRO (SPLIT-SCREEN GLASSMORPHISM)
+    ====================================================================== -->
+    <div id="authModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4">
+        <!-- Backdrop desenfocado -->
+        <div onclick="closeAuthModal()" class="fixed inset-0 bg-[#05080f]/80 backdrop-blur-md transition-opacity"></div>
+
+        <!-- Contenedor Principal Split-Screen -->
+        <div class="relative z-10 w-full max-w-4xl rounded-3xl overflow-hidden bg-[#111827]/95 border border-slate-700/80 shadow-[0_0_50px_rgba(6,182,212,0.2)] grid grid-cols-1 md:grid-cols-12">
+            
+            <!-- Botón Cerrar Modal -->
+            <button 
+                onclick="closeAuthModal()" 
+                class="absolute top-4 right-4 z-20 p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 transition-colors"
+                aria-label="Cerrar ventana de acceso"
+            >
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <!-- Columna Izquierda: Visual Tech & Branding (Oculta en móviles pequeños) -->
+            <div class="hidden md:flex md:col-span-5 relative flex-col justify-between p-8 bg-slate-950 overflow-hidden">
+                <img 
+                    src="https://images.unsplash.com/photo-1591488320449-011701bb6704?auto=format&fit=crop&w=900&q=80" 
+                    onerror="this.src='https://placehold.co/600x800/0b0f19/8b5cf6?text=NEXUS+MEMBER'"
+                    alt="Tarjeta Gráfica de Alto Rendimiento" 
+                    class="absolute inset-0 w-full h-full object-cover opacity-40"
+                >
+                <div class="absolute inset-0 bg-gradient-to-t from-[#0b0f19] via-[#0b0f19]/60 to-purple-950/40"></div>
+                
+                <div class="relative z-10">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/20 border border-cyan-400/30 text-cyan-300 text-xs font-mono mb-4">
+                        NEXUS ID
+                    </div>
+                    <h3 class="text-2xl font-extrabold text-white leading-snug">
+                        Accede al ecosistema <span class="text-cyan-400">Hardware Pro</span>
+                    </h3>
+                </div>
+
+                <div class="relative z-10 space-y-3 text-xs text-slate-300">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-6 h-6 rounded-lg bg-cyan-500/20 flex items-center justify-center text-cyan-400 shrink-0">
+                            <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                        </div>
+                        <span>Seguimiento en tiempo real de tus envíos</span>
+                    </div>
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-6 h-6 rounded-lg bg-purple-500/20 flex items-center justify-center text-purple-400 shrink-0">
+                            <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                        </div>
+                        <span>Acceso anticipado a stock de GPUs RTX</span>
+                    </div>
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-6 h-6 rounded-lg bg-cyan-500/20 flex items-center justify-center text-cyan-400 shrink-0">
+                            <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                        </div>
+                        <span>Garantía extendida digital en tus compras</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna Derecha: Formulario Interactivo -->
+            <div class="md:col-span-7 p-6 sm:p-10 flex flex-col justify-center">
+                
+                <!-- Selector de Pestañas (Iniciar Sesión / Registrarse) -->
+                <div class="grid grid-cols-2 p-1 rounded-xl bg-slate-900 border border-slate-800 mb-6">
+                    <button 
+                        id="tabLoginBtn" 
+                        onclick="switchAuthTab('login')" 
+                        class="py-2.5 text-sm font-semibold rounded-lg bg-gradient-to-r from-cyan-500 to-purple-600 text-white shadow transition-all"
+                    >
+                        Iniciar Sesión
+                    </button>
+                    <button 
+                        id="tabRegisterBtn" 
+                        onclick="switchAuthTab('register')" 
+                        class="py-2.5 text-sm font-semibold rounded-lg text-slate-400 hover:text-white transition-all"
+                    >
+                        Registrarse
+                    </button>
+                </div>
+
+                <!-- Título dinámico del formulario -->
+                <div class="mb-6">
+                    <h2 id="authTitle" class="text-2xl font-bold text-white">Bienvenido de nuevo</h2>
+                    <p id="authSubtitle" class="text-sm text-slate-400 mt-1">Ingresa tus credenciales para gestionar tus pedidos.</p>
+                </div>
+
+                <!-- Mensaje de error / validación -->
+                <div id="authErrorBox" class="hidden mb-4 p-3 rounded-xl bg-rose-500/10 border border-rose-500/40 text-rose-300 text-xs flex items-center gap-2">
+                    <i data-lucide="alert-circle" class="w-4 h-4 shrink-0"></i>
+                    <span id="authErrorText">Por favor completa todos los campos correctamente.</span>
+                </div>
+
+                <!-- Formulario -->
+                <form id="authForm" onsubmit="handleAuthSubmit(event)" class="space-y-4" novalidate>
+                    <!-- Campo Nombre (Solo visible en Registro) -->
+                    <div id="registerNameField" class="hidden">
+                        <label class="block text-xs font-medium text-slate-300 mb-1.5">Nombre Completo o Gamertag</label>
+                        <div class="relative">
+                            <i data-lucide="user" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+                            <input 
+                                type="text" 
+                                id="authNameInput" 
+                                placeholder="Ej. Alex Mercer" 
+                                class="w-full bg-slate-900/90 border border-slate-700 focus:border-cyan-500 rounded-xl py-2.5 pl-10 pr-4 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20"
+                            >
+                        </div>
+                    </div>
+
+                    <!-- Campo Correo Electrónico -->
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1.5">Correo Electrónico</label>
+                        <div class="relative">
+                            <i data-lucide="mail" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+                            <input 
+                                type="email" 
+                                id="authEmailInput" 
+                                placeholder="usuario@nexuspc.com" 
+                                required
+                                class="w-full bg-slate-900/90 border border-slate-700 focus:border-cyan-500 rounded-xl py-2.5 pl-10 pr-4 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20"
+                            >
+                        </div>
+                    </div>
+
+                    <!-- Campo Contraseña con botón Mostrar/Ocultar -->
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <label class="block text-xs font-medium text-slate-300">Contraseña</label>
+                            <a href="#" onclick="event.preventDefault(); showToast('Enlace de recuperación enviado a tu correo', 'info')" class="text-xs text-cyan-400 hover:underline">¿Olvidaste tu contraseña?</a>
+                        </div>
+                        <div class="relative">
+                            <i data-lucide="lock" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+                            <input 
+                                type="password" 
+                                id="authPasswordInput" 
+                                placeholder="Mínimo 6 caracteres" 
+                                required
+                                class="w-full bg-slate-900/90 border border-slate-700 focus:border-cyan-500 rounded-xl py-2.5 pl-10 pr-11 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20"
+                            >
+                            <button 
+                                type="button" 
+                                onclick="togglePasswordVisibility()" 
+                                class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-cyan-400 p-1 transition-colors"
+                                aria-label="Mostrar u ocultar contraseña"
+                            >
+                                <i id="passwordEyeIcon" data-lucide="eye" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Botón Submit -->
+                    <button 
+                        type="submit" 
+                        id="authSubmitBtn"
+                        class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white font-bold text-sm shadow-neon-cyan transition-all active:scale-[0.99] mt-2"
+                    >
+                        Iniciar Sesión
+                    </button>
+                </form>
+
+                <!-- Separador Social Login -->
+                <div class="relative my-6">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-slate-800"></div>
+                    </div>
+                    <div class="relative flex justify-center text-xs">
+                        <span class="px-3 bg-[#111827] text-slate-400">O continúa rápidamente con</span>
+                    </div>
+                </div>
+
+                <!-- Botones Google y GitHub -->
+                <div class="grid grid-cols-2 gap-3">
+                    <button 
+                        type="button" 
+                        onclick="socialLogin('Google')" 
+                        class="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-sm font-medium text-slate-200 transition-all"
+                    >
+                        <svg class="w-4 h-4" viewBox="0 0 24 24">
+                            <path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.6l3.1-3.1C17.3 1.7 14.8 1 12 1 7.4 1 3.5 3.6 1.6 7.4l3.7 2.8C6.2 7.2 8.9 5 12 5z"/>
+                            <path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.7-.2-2.5H12v4.8h6.5c-.3 1.5-1.1 2.8-2.4 3.6l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/>
+                            <path fill="#FBBC05" d="M5.3 14.8c-.2-.8-.4-1.6-.4-2.5s.2-1.7.4-2.5L1.6 7C.6 9 0 11.2 0 13.5s.6 4.5 1.6 6.5l3.7-2.8z"/>
+                            <path fill="#34A853" d="M12 24c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3.1 0-5.8-2.1-6.7-5l-3.7 2.8C3.5 21 7.4 24 12 24z"/>
+                        </svg>
+                        <span>Google</span>
+                    </button>
+                    <button 
+                        type="button" 
+                        onclick="socialLogin('GitHub')" 
+                        class="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-sm font-medium text-slate-200 transition-all"
+                    >
+                        <i data-lucide="github" class="w-4 h-4 text-white"></i>
+                        <span>GitHub</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =====================================================================
+         CONTENEDOR DE NOTIFICACIONES TOAST
+    ====================================================================== -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2.5 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
+
+    <!-- =====================================================================
+         LÓGICA JAVASCRIPT DE LA TIENDA NEXUS PC
+    ====================================================================== -->
+    <script>
+        // 1. BASE DE DATOS DE PRODUCTOS (Con imágenes reales verificadas de Unsplash)
+        const products = [
+            {
+                id: 1,
+                name: "NVIDIA GeForce RTX 4090 ROG Strix",
+                category: "GPUs",
+                price: 1899.99,
+                specs: "24GB GDDR6X • DLSS 3.5 • Ray Tracing",
+                badge: "TOP VENTAS",
+                image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 2,
+                name: "AMD Ryzen 9 7950X3D 16-Core",
+                category: "Procesadores",
+                price: 649.00,
+                specs: "16 Núcleos • 5.7 GHz Boost • 144MB Caché",
+                badge: "3D V-CACHE",
+                image: "https://images.unsplash.com/photo-1555617981-dac3880eac6e?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 3,
+                name: "Laptop ASUS ROG Zephyrus G16",
+                category: "Laptops",
+                price: 2299.00,
+                specs: "RTX 4080 • OLED 240Hz • 32GB RAM",
+                badge: "ULTRABOOK PRO",
+                image: "https://images.unsplash.com/photo-1603302576837-37561b2e2302?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 4,
+                name: "Teclado Mecánico Keychron Q1 Pro RGB",
+                category: "Periféricos",
+                price: 199.00,
+                specs: "Aluminio CNC • Switches Red • Wireless",
+                badge: "CUSTOM",
+                image: "https://images.unsplash.com/photo-1595225476474-87563907a212?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 5,
+                name: "Intel Core i9-14900K Unlocked",
+                category: "Procesadores",
+                price: 589.99,
+                specs: "24 Núcleos • Hasta 6.0 GHz • LGA1700",
+                badge: "6.0 GHZ",
+                image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 6,
+                name: "Monitor Curvo Odyssey OLED G9 49\"",
+                category: "Periféricos",
+                price: 1399.00,
+                specs: "Dual QHD • 240Hz • 0.03ms GtG",
+                badge: "ULTRAWIDE",
+                image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 7,
+                name: "MSI GeForce RTX 4070 Ti SUPER",
+                category: "GPUs",
+                price: 829.00,
+                specs: "16GB GDDR6X • Triple Ventilador Torx",
+                badge: "CALIDAD/PRECIO",
+                image: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 8,
+                name: "Laptop Razer Blade 15 Mercury Edition",
+                category: "Laptops",
+                price: 2499.00,
+                specs: "Core i9 • RTX 4070 • Chasis Unibody",
+                badge: "EDICIÓN LIMITADA",
+                image: "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?auto=format&fit=crop&w=800&q=80"
+            }
+        ];
+
+        // 2. ESTADO DE LA APLICACIÓN
+        let cart = [];
+        let currentCategory = "Todos";
+        let searchQuery = "";
+        let currentAuthMode = "login"; // 'login' | 'register'
+        let currentUser = null;
+
+        // 3. INICIALIZACIÓN AL CARGAR EL DOM
+        document.addEventListener("DOMContentLoaded", () => {
+            renderProducts();
+            updateCartUI();
+            lucide.createIcons();
+
+            // Listeners para búsqueda en tiempo real (Desktop y Móvil)
+            const desktopSearch = document.getElementById("searchInputDesktop");
+            const mobileSearch = document.getElementById("searchInputMobile");
+
+            desktopSearch.addEventListener("input", (e) => {
+                searchQuery = e.target.value.toLowerCase().trim();
+                mobileSearch.value = e.target.value;
+                renderProducts();
+            });
+
+            mobileSearch.addEventListener("input", (e) => {
+                searchQuery = e.target.value.toLowerCase().trim();
+                desktopSearch.value = e.target.value;
+                renderProducts();
+            });
+
+            // Listeners para botones de categoría
+            document.querySelectorAll(".category-btn").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const selected = btn.getAttribute("data-category");
+                    filterByCategory(selected);
+                });
+            });
+        });
+
+        // 4. FILTRADO Y RENDERIZADO DE PRODUCTOS
+        function filterByCategory(category) {
+            currentCategory = category;
+
+            // Actualizar estilos visuales de los botones
+            document.querySelectorAll(".category-btn").forEach(btn => {
+                if (btn.getAttribute("data-category") === category) {
+                    btn.className = "category-btn active px-4 py-2 rounded-xl text-sm font-semibold bg-cyan-500 text-slate-950 shadow-neon-cyan transition-all shrink-0";
+                } else {
+                    btn.className = "category-btn px-4 py-2 rounded-xl text-sm font-medium bg-slate-900/90 text-slate-300 border border-slate-800 hover:border-cyan-500/50 transition-all shrink-0";
+                }
+            });
+
+            renderProducts();
+        }
+
+        function resetFilters() {
+            searchQuery = "";
+            document.getElementById("searchInputDesktop").value = "";
+            document.getElementById("searchInputMobile").value = "";
+            filterByCategory("Todos");
+        }
+
+        function renderProducts() {
+            const grid = document.getElementById("productsGrid");
+            const emptyState = document.getElementById("emptyState");
+
+            const filtered = products.filter(product => {
+                const matchesCategory = currentCategory === "Todos" || product.category === currentCategory;
+                const matchesSearch = product.name.toLowerCase().includes(searchQuery) || 
+                                      product.specs.toLowerCase().includes(searchQuery) ||
+                                      product.category.toLowerCase().includes(searchQuery);
+                return matchesCategory && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = "";
+                emptyState.classList.remove("hidden");
+                lucide.createIcons();
+                return;
+            }
+
+            emptyState.classList.add("hidden");
+            grid.innerHTML = filtered.map(product => `
+                <article class="group relative rounded-2xl bg-slate-900/75 backdrop-blur-md border border-slate-800/90 hover:border-cyan-500/60 overflow-hidden flex flex-col transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(6,182,212,0.15)]">
+                    
+                    <!-- Imagen del Producto -->
+                    <div class="relative h-52 overflow-hidden bg-slate-950">
+                        <img 
+                            src="${product.image}" 
+                            onerror="this.src='https://placehold.co/600x400/111827/06b6d4?text=${encodeURIComponent(product.category)}'"
+                            alt="${product.name}" 
+                            class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                        >
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-80"></div>
+                        
+                        <!-- Badge superior -->
+                        <span class="absolute top-3 left-3 px-2.5 py-1 rounded-lg bg-slate-950/85 backdrop-blur-md border border-cyan-500/30 text-cyan-400 text-[10px] font-mono font-bold tracking-wider">
+                            ${product.badge}
+                        </span>
+                        <span class="absolute top-3 right-3 px-2.5 py-1 rounded-lg bg-purple-600/20 backdrop-blur-md border border-purple-500/30 text-purple-300 text-[11px] font-medium">
+                            ${product.category}
+                        </span>
+                    </div>
+
+                    <!-- Detalles del Producto -->
+                    <div class="p-5 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-base font-bold text-white group-hover:text-cyan-300 transition-colors line-clamp-2 mb-1.5">
+                                ${product.name}
+                            </h3>
+                            <p class="text-xs text-slate-400 font-mono mb-4">
+                                ${product.specs}
+                            </p>
+                        </div>
+
+                        <div class="pt-4 border-t border-slate-800/80 flex items-center justify-between gap-3">
+                            <div>
+                                <span class="text-[11px] text-slate-500 block">Precio contado</span>
+                                <span class="text-xl font-extrabold font-mono text-white">
+                                    $${product.price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                                </span>
+                            </div>
+                            <button 
+                                onclick="addToCart(${product.id})" 
+                                class="px-3.5 py-2.5 rounded-xl bg-cyan-500/15 hover:bg-cyan-500 text-cyan-400 hover:text-slate-950 border border-cyan-500/40 font-semibold text-xs flex items-center gap-1.5 transition-all active:scale-95"
+                            >
+                                <i data-lucide="plus" class="w-4 h-4"></i>
+                                <span>Agregar</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            `).join("");
+
+            lucide.createIcons();
+        }
+
+        // 5. GESTIÓN DEL CARRITO DE COMPRAS
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+
+            updateCartUI();
+            showToast(`"${product.name}" agregado al carrito`, "success");
+        }
+
+        function updateQuantity(productId, delta) {
+            const itemIndex = cart.findIndex(item => item.id === productId);
+            if (itemIndex === -1) return;
+
+            cart[itemIndex].quantity += delta;
+            if (cart[itemIndex].quantity <= 0) {
+                cart.splice(itemIndex, 1);
+            }
+            updateCartUI();
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCartUI();
+            showToast("Producto eliminado del carrito", "info");
+        }
+
+        function updateCartUI() {
+            const badge = document.getElementById("cartBadge");
+            const headerCount = document.getElementById("cartHeaderCount");
+            const container = document.getElementById("cartItemsContainer");
+            const subtotalEl = document.getElementById("cartSubtotal");
+            const totalEl = document.getElementById("cartTotal");
+            const footer = document.getElementById("cartFooter");
+
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+            badge.textContent = totalItems;
+            headerCount.textContent = `${totalItems} ${totalItems === 1 ? 'item' : 'items'}`;
+
+            if (cart.length === 0) {
+                footer.classList.add("hidden");
+                container.innerHTML = `
+                    <div class="h-full flex flex-col items-center justify-center text-center py-12">
+                        <div class="w-16 h-16 rounded-2xl bg-slate-800/80 border border-slate-700 flex items-center justify-center text-slate-400 mb-4">
+                            <i data-lucide="shopping-cart" class="w-8 h-8"></i>
+                        </div>
+                        <h4 class="text-white font-bold text-base mb-1">Tu carrito está vacío</h4>
+                        <p class="text-slate-400 text-xs max-w-xs mb-6">Explora nuestro catálogo y añade componentes de alto rendimiento para armar tu PC.</p>
+                        <button onclick="toggleCartModal(false)" class="px-5 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-semibold text-xs transition-all">
+                            Ir al Catálogo
+                        </button>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            footer.classList.remove("hidden");
+            container.innerHTML = cart.map(item => `
+                <div class="flex gap-3.5 p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 items-center">
+                    <img 
+                        src="${item.image}" 
+                        onerror="this.src='https://placehold.co/100x100/111827/06b6d4?text=PC'"
+                        alt="${item.name}" 
+                        class="w-16 h-16 rounded-xl object-cover shrink-0 border border-slate-700"
+                    >
+                    <div class="flex-1 min-w-0">
+                        <h4 class="text-sm font-semibold text-white truncate">${item.name}</h4>
+                        <p class="text-xs font-mono text-cyan-400 mt-0.5">$${(item.price * item.quantity).toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
+                        
+                        <!-- Controles de cantidad -->
+                        <div class="flex items-center gap-2 mt-2">
+                            <button onclick="updateQuantity(${item.id}, -1)" class="w-6 h-6 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 flex items-center justify-center text-xs font-bold transition-colors">-</button>
+                            <span class="text-xs font-mono font-semibold text-white w-5 text-center">${item.quantity}</span>
+                            <button onclick="updateQuantity(${item.id}, 1)" class="w-6 h-6 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 flex items-center justify-center text-xs font-bold transition-colors">+</button>
+                        </div>
+                    </div>
+                    <button onclick="removeFromCart(${item.id})" class="p-2 text-slate-500 hover:text-rose-400 transition-colors" aria-label="Eliminar producto">
+                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            `).join("");
+
+            const formattedTotal = `$${totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
+            subtotalEl.textContent = formattedTotal;
+            totalEl.textContent = formattedTotal;
+            lucide.createIcons();
+        }
+
+        function toggleCartModal(show) {
+            const modal = document.getElementById("cartModal");
+            if (show) {
+                modal.classList.remove("hidden");
+                document.body.style.overflow = "hidden";
+            } else {
+                modal.classList.add("hidden");
+                document.body.style.overflow = "";
+            }
+        }
+
+        function checkoutOrder() {
+            if (!currentUser) {
+                toggleCartModal(false);
+                openAuthModal("login");
+                showToast("Inicia sesión para completar tu compra", "info");
+                return;
+            }
+            cart = [];
+            updateCartUI();
+            toggleCartModal(false);
+            showToast(`¡Pedido confirmado, ${currentUser.name}! Revisa tu correo.`, "success");
+        }
+
+        // 6. SISTEMA DE LOGIN Y REGISTRO MODERNO
+        function openAuthModal(mode = "login") {
+            const modal = document.getElementById("authModal");
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+            document.body.style.overflow = "hidden";
+            switchAuthTab(mode);
+        }
+
+        function closeAuthModal() {
+            const modal = document.getElementById("authModal");
+            modal.classList.add("hidden");
+            modal.classList.remove("flex");
+            document.body.style.overflow = "";
+            document.getElementById("authErrorBox").classList.add("hidden");
+        }
+
+        function switchAuthTab(mode) {
+            currentAuthMode = mode;
+            const tabLogin = document.getElementById("tabLoginBtn");
+            const tabRegister = document.getElementById("tabRegisterBtn");
+            const nameField = document.getElementById("registerNameField");
+            const title = document.getElementById("authTitle");
+            const subtitle = document.getElementById("authSubtitle");
+            const submitBtn = document.getElementById("authSubmitBtn");
+            const errorBox = document.getElementById("authErrorBox");
+
+            errorBox.classList.add("hidden");
+
+            if (mode === "login") {
+                tabLogin.className = "py-2.5 text-sm font-semibold rounded-lg bg-gradient-to-r from-cyan-500 to-purple-600 text-white shadow transition-all";
+                tabRegister.className = "py-2.5 text-sm font-semibold rounded-lg text-slate-400 hover:text-white transition-all";
+                nameField.classList.add("hidden");
+                title.textContent = "Bienvenido de nuevo";
+                subtitle.textContent = "Ingresa tus credenciales para gestionar tus pedidos.";
+                submitBtn.textContent = "Iniciar Sesión";
+            } else {
+                tabRegister.className = "py-2.5 text-sm font-semibold rounded-lg bg-gradient-to-r from-cyan-500 to-purple-600 text-white shadow transition-all";
+                tabLogin.className = "py-2.5 text-sm font-semibold rounded-lg text-slate-400 hover:text-white transition-all";
+                nameField.classList.remove("hidden");
+                title.textContent = "Crea tu cuenta NEXUS ID";
+                subtitle.textContent = "Únete para obtener envíos prioritarios y soporte VIP.";
+                submitBtn.textContent = "Crear Cuenta Ahora";
+            }
+        }
+
+        function togglePasswordVisibility() {
+            const input = document.getElementById("authPasswordInput");
+            const icon = document.getElementById("passwordEyeIcon");
+            if (input.type === "password") {
+                input.type = "text";
+                icon.setAttribute("data-lucide", "eye-off");
+            } else {
+                input.type = "password";
+                icon.setAttribute("data-lucide", "eye");
+            }
+            lucide.createIcons();
+        }
+
+        function handleAuthSubmit(event) {
+            event.preventDefault();
+            const nameInput = document.getElementById("authNameInput").value.trim();
+            const emailInput = document.getElementById("authEmailInput").value.trim();
+            const passwordInput = document.getElementById("authPasswordInput").value;
+            const errorBox = document.getElementById("authErrorBox");
+            const errorText = document.getElementById("authErrorText");
+
+            // Validación básica
+            if (currentAuthMode === "register" && nameInput.length < 2) {
+                errorText.textContent = "Por favor ingresa tu nombre o gamertag.";
+                errorBox.classList.remove("hidden");
+                return;
+            }
+
+            if (!emailInput.includes("@") || !emailInput.includes(".")) {
+                errorText.textContent = "Ingresa un correo electrónico válido.";
+                errorBox.classList.remove("hidden");
+                return;
+            }
+
+            if (passwordInput.length < 6) {
+                errorText.textContent = "La contraseña debe tener al menos 6 caracteres.";
+                errorBox.classList.remove("hidden");
+                return;
+            }
+
+            // Simular inicio de sesión exitoso
+            const displayName = currentAuthMode === "register" 
+                ? nameInput 
+                : emailInput.split("@")[0].replace(/[^a-zA-Z0-9]/g, " ");
+
+            completeLogin(displayName, emailInput);
+        }
+
+        function socialLogin(provider) {
+            completeLogin(`Gamer_${provider}`, `usuario@${provider.toLowerCase()}.com`);
+        }
+
+        function completeLogin(name, email) {
+            currentUser = { name, email };
+            closeAuthModal();
+            updateAuthHeader();
+            showToast(`Sesión iniciada como ${name}`, "success");
+        }
+
+        function logoutUser() {
+            currentUser = null;
+            updateAuthHeader();
+            showToast("Has cerrado sesión correctamente", "info");
+        }
+
+        function updateAuthHeader() {
+            const container = document.getElementById("authHeaderContainer");
+            if (!currentUser) {
+                container.innerHTML = `
+                    <button 
+                        onclick="openAuthModal('login')" 
+                        class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white font-semibold text-sm shadow-neon-cyan hover:shadow-neon-purple transition-all active:scale-95"
+                    >
+                        <i data-lucide="user" class="w-4 h-4"></i>
+                        <span>Iniciar Sesión</span>
+                    </button>
+                `;
+            } else {
+                const initial = currentUser.name.charAt(0).toUpperCase();
+                container.innerHTML = `
+                    <div class="flex items-center gap-2.5 pl-2 pr-3 py-1.5 rounded-xl bg-slate-900 border border-cyan-500/40">
+                        <div class="w-7 h-7 rounded-lg bg-gradient-to-br from-cyan-500 to-purple-600 flex items-center justify-center text-white font-bold text-xs">
+                            ${initial}
+                        </div>
+                        <span class="text-sm font-semibold text-white max-w-[110px] truncate hidden sm:inline">${currentUser.name}</span>
+                        <button onclick="logoutUser()" title="Cerrar sesión" class="p-1 text-slate-400 hover:text-rose-400 transition-colors">
+                            <i data-lucide="log-out" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                `;
+            }
+            lucide.createIcons();
+        }
+
+        // 7. NOTIFICACIONES TOAST ELEGANTES
+        function showToast(message, type = "success") {
+            const container = document.getElementById("toastContainer");
+            const toast = document.createElement("div");
+
+            const iconName = type === "success" ? "check-circle-2" : "info";
+            const borderClass = type === "success" ? "border-cyan-500/50" : "border-purple-500/50";
+            const iconColor = type === "success" ? "text-cyan-400" : "text-purple-400";
+
+            toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-2xl bg-slate-900/95 backdrop-blur-xl border ${borderClass} text-white text-sm shadow-2xl transform transition-all duration-300 translate-y-2 opacity-0`;
+            toast.innerHTML = `
+                <i data-lucide="${iconName}" class="w-5 h-5 ${iconColor} shrink-0"></i>
+                <span class="font-medium text-xs sm:text-sm">${message}</span>
+            `;
+
+            container.appendChild(toast);
+            lucide.createIcons();
+
+            // Animación de entrada
+            requestAnimationFrame(() => {
+                toast.classList.remove("translate-y-2", "opacity-0");
+            });
+
+            // Auto-eliminación después de 3 segundos
+            setTimeout(() => {
+                toast.classList.add("opacity-0", "translate-y-2");
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
